@@ -21,6 +21,10 @@ public class Application extends javafx.application.Application {
   private static ArrayList<WeatherData> weatherDataList;
 
   public static List<WeatherData> getWeatherData() {
+    // test for git commits
+    // hopefully this works
+    // :)
+
     if (weatherDataList != null) {
       return weatherDataList;
     }
