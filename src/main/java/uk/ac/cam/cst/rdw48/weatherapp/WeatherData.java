@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 
 public class WeatherData {
   final public LocalDateTime time;
+  final public LocalDateTime sunrise;
+  final public LocalDateTime sunset;
   final public double temperature;
   final public double temperatureFeelsLike;
   final public double pressure;
@@ -14,10 +16,12 @@ public class WeatherData {
   final public double windDirection;
   final public double visibility;
 
-  public WeatherData(LocalDateTime time, double temperature, double temperatureFeelsLike, double pressure, double humidity,
+  public WeatherData(LocalDateTime time, LocalDateTime sunrise, LocalDateTime sunset, double temperature, double temperatureFeelsLike, double pressure, double humidity,
       String cloudCoverDescription, double cloudCoverPercent, double windSpeed, double windDirection,
       double visibility) {
     this.time = time;
+    this.sunrise = sunrise;
+    this.sunset = sunset;
     this.temperature = temperature;
     this.temperatureFeelsLike = temperatureFeelsLike;
     this.pressure = pressure;
