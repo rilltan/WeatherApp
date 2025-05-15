@@ -1,20 +1,11 @@
 package uk.ac.cam.cst.rdw48.weatherapp;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import org.json.JSONObject;
-
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 
 public class Controller {
   @FXML
@@ -23,30 +14,16 @@ public class Controller {
   @FXML
   private Label welcomeText;
 
+  public void initialize() {
+    Application app = new Application();
+    List<WeatherData> weatherDataList = Application.getWeatherData();
 
-  @FXML
-  public void apiCall(ActionEvent actionEvent) {
-    HttpClient client = HttpClient.newHttpClient();
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(URI.create("https://api.openweathermap.org/data/2.5/forecast?lat=52.205276&lon=0.119167&appid=b76c485ab461112dd75fafbdd0334228"))
-        .GET()
-        .build();
+    if (!weatherDataList.isEmpty()) {
+      WeatherData firstData = weatherDataList.get(0);
 
-    String responseBody = "";
-    try {
-      HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-      responseBody = response.body();
-      JSONObject json = new JSONObject(responseBody);
-
-      String data = json.getJSONArray("list").getJSONObject(0).getJSONObject("main").toString();
-      LocalDateTime sunrise = LocalDateTime.ofInstant(Instant.ofEpochSecond(json.getJSONObject("city").getLong("sunrise")),ZoneId.systemDefault()) ;
-      LocalDateTime sunset = LocalDateTime.ofInstant(Instant.ofEpochSecond(json.getJSONObject("city").getLong("sunset")),ZoneId.systemDefault()) ;
-
-      System.out.println(data);
-      api_sunrise.setText("Sunrise: " + sunrise.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-      api_sunset.setText("Sunset: " + sunset.format(DateTimeFormatter.ofPattern("HH:mm:ss")));
-    } catch (Exception e) {
-        e.printStackTrace();
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+      api_sunrise.setText("Sunrise: " + firstData.sunrise.format(formatter));
+      api_sunset.setText("Sunset: " + firstData.sunset.format(formatter));
     }
   }
 }

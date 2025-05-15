@@ -13,5 +13,4 @@
 
     <Label fx:id="api_sunrise"/>
     <Label fx:id="api_sunset"/>
-    <Button text="test API" onAction="#apiCall"/>
 </VBox>
